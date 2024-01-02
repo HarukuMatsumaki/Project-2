@@ -5,7 +5,6 @@ import pygame
 pygame.init()
 
 
-
 def load_image(name, color_key=None):
     fullname = os.path.join(name)
     try:
@@ -26,12 +25,15 @@ def load_image(name, color_key=None):
 size = width, height = 500, 500
 fsize = 42
 
-f1 = pygame.font.SysFont('arial', fsize)
+f1 = pygame.font.SysFont("arial", fsize)
 
 start = pygame.display.set_mode(size)
 start.fill(pygame.Color("black"))
 
-levels = [[f1.render(str(i), True, (180, 0, 0)), (height // 6 * i, (height - fsize) // 2)] for i in range(1, 6)]
+levels = [
+    [f1.render(str(i), True, (180, 0, 0)), (height // 6 * i, (height - fsize) // 2)]
+    for i in range(1, 6)
+]
 
 st = True
 run = True
@@ -56,18 +58,16 @@ while st:
                     if 500 // 6 * i <= event.pos[0] <= 500 // 6 * (i + 1):
                         level = i + 1
                         st = False
-    
-    
+
+
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Бежать шарик 5 уровней")
 cc = pygame.time.Clock()
 
 
-
-
 class Ball(pygame.sprite.Sprite):
     image = load_image("ball.png", -1)
-    
+
     def __init__(self, radius, x, y):
         super().__init__(all_sprites)
         super().__init__(danger)
@@ -76,17 +76,26 @@ class Ball(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect.x = x
         self.rect.y = y
-        
+
         self.radius = radius
-##        self.image = pygame.Surface((2 * radius, 2 * radius), pygame.SRCALPHA, 32)
-##        pygame.draw.circle(self.image, pygame.Color("red"), (radius, radius), radius)
-##        self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
+        ##        self.image = pygame.Surface((2 * radius, 2 * radius), pygame.SRCALPHA, 32)
+        ##        pygame.draw.circle(self.image, pygame.Color("red"), (radius, radius), radius)
+        ##        self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.vx = 0
         self.vy = 0
 
-
     def update(self, vx, vy, speed):
-        dx, dy = (player.rect.x + 0.5 * player.rect.width - self.rect.x - 0.5 * self.rect.width), (player.rect.y + 0.5 * player.rect.height - self.rect.y - 0.5 * self.rect.height)
+        dx, dy = (
+            player.rect.x
+            + 0.5 * player.rect.width
+            - self.rect.x
+            - 0.5 * self.rect.width
+        ), (
+            player.rect.y
+            + 0.5 * player.rect.height
+            - self.rect.y
+            - 0.5 * self.rect.height
+        )
         l = math.sqrt(dx ** 2 + dy ** 2)
         if l:
             self.rect.x += level * speed * dx / l
@@ -103,14 +112,14 @@ class Player(pygame.sprite.Sprite):
         self.vx = 0
         self.vx = 0
 
-
     def update(self, vx, vy, speed):
-        dx, dy = (vx - self.rect.x - 0.5 * self.rect.width), (vy - self.rect.y - 0.5 * self.rect.height)
+        dx, dy = (vx - self.rect.x - 0.5 * self.rect.width), (
+            vy - self.rect.y - 0.5 * self.rect.height
+        )
         l = math.sqrt(dx ** 2 + dy ** 2)
         if l:
             self.rect.x += 5 * speed * dx / l
             self.rect.y += 5 * speed * dy / l
-            
 
 
 all_sprites = pygame.sprite.Group()
@@ -135,12 +144,16 @@ while run:
         score = (pygame.time.get_ticks() - ssccoorree) * level
         try:
             rec = open("rec.txt", "r")
-            data = [int(i[i.find(" ") + 1:]) for i in rec.read().rstrip("\n").split("\n")]
+            data = [
+                int(i[i.find(" ") + 1 :]) for i in rec.read().rstrip("\n").split("\n")
+            ]
             rec.close
             data.append(score)
-            data = sorted(data, reverse = True)
+            data = sorted(data, reverse=True)
             rec = open("rec.txt", "w")
-            rec.writelines([str(i + 1) + ") " + str(data[i]) + "\n" for i in range(len(data))])
+            rec.writelines(
+                [str(i + 1) + ") " + str(data[i]) + "\n" for i in range(len(data))]
+            )
             rec.close()
             score = f"Top {data.index(score) + 1}" + ": " + str(score)
         except FileNotFoundError:
