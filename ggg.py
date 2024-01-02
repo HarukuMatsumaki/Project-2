@@ -1,5 +1,6 @@
-import os, random, math
-
+import os
+import random
+import math
 import pygame
 
 pygame.init()
@@ -59,9 +60,8 @@ while st:
                         level = i + 1
                         st = False
 
-
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Бежать шарик 5 уровней")
+pygame.display.set_caption("Running Ball 5 Levels")
 cc = pygame.time.Clock()
 
 
@@ -78,9 +78,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect.y = y
 
         self.radius = radius
-        ##        self.image = pygame.Surface((2 * radius, 2 * radius), pygame.SRCALPHA, 32)
-        ##        pygame.draw.circle(self.image, pygame.Color("red"), (radius, radius), radius)
-        ##        self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.vx = 0
         self.vy = 0
 
@@ -129,6 +126,7 @@ ball = Ball(5, *map(lambda n: n // 2, size))
 player = Player(10, 15, 15)
 vx = vy = 0
 ssccoorree = pygame.time.get_ticks()
+
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -168,11 +166,13 @@ end = pygame.display.set_mode(size)
 end.fill(pygame.Color("black"))
 text = f1.render(str(score), True, "red")
 text_rect = text.get_rect(center=(width / 2, height / 2))
+
 while bye:
     end.blit(text, text_rect)
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             bye = False
+
 pygame.quit()
 print(score)
