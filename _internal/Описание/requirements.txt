@@ -1,0 +1,6 @@
+pygame
+auto-py-to-exe
+math
+random
+os
+auto-py-to-exe
